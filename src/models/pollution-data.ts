@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 // this model will store time series data for pollution in a pollution collection
 
 interface PollutionDataAttrs {
-  timestamp: Date;
+  recordedAt: Date;
   data: {
     [key: string]: number;
   };
@@ -23,7 +23,8 @@ interface PollutionDataModel extends mongoose.Model<PollutionDataDoc> {
 }
 
 interface PollutionDataDoc extends mongoose.Document {
-  timestamp: Date;
+  recordedAt: Date;
+
   data: {
     [key: string]: number;
   };
@@ -34,15 +35,18 @@ interface PollutionDataDoc extends mongoose.Document {
 
   metadata: {
     dataSourceId: string;
+    addedAt: Date;
   };
+
 }
 
 const pollutionDataSchema = new mongoose.Schema(
   {
-    timestamp: {
+    recordedAt: {
       type: Date,
       required: true,
     },
+    
 
     data: {
       type: Object,
@@ -61,17 +65,19 @@ const pollutionDataSchema = new mongoose.Schema(
     },
 
     metadata: {
-      type: {
-        dataSourceId: {
-          type: String,
-          required: true,
-        },
+      dataSourceId: {
+        type: String,
+        required: true,
+      },
+      addedAt: {
+        type: Date,
+        required: true,
       },
     },
   },
   {
     timeseries: {
-      timeField: 'timestamp',
+      timeField: 'recordedAt',
       metaField: 'metaData',
       granularity: 'seconds',
     },
@@ -86,8 +92,14 @@ const pollutionDataSchema = new mongoose.Schema(
 );
 
 pollutionDataSchema.statics.build = (attrs: PollutionDataAttrs) => {
-  console.log('attrs', attrs);
-  return new PollutionData(attrs);
+  const newAttrs = {
+    ...attrs,
+    metadata: {
+      dataSourceId: attrs.metadata.dataSourceId,
+      addedAt: new Date(),
+    },
+  };
+  return new PollutionData(newAttrs);
 };
 
 const PollutionData = mongoose.model<PollutionDataDoc, PollutionDataModel>('PollutionData', pollutionDataSchema);

@@ -7,9 +7,8 @@ import { BadRequestError, currentUser, requireAuth } from '@airlifegoa/common';
 
 const router = express.Router();
 
-
 // url should contain optional query params pageNumber and pageSize
-router.get('/api/pollution/data/:dataSourceId',
+router.get('/api/pollution/data/daily/:dataSourceId',
   currentUser,
   requireAuth,
   async (req: Request, res: Response) => {
@@ -19,7 +18,6 @@ router.get('/api/pollution/data/:dataSourceId',
     }
 
 
-    console.log(req.params.dataSourceId);
     const dataSource = await DataSource.findById(req.params.dataSourceId);
 
     if (!dataSource) {
@@ -39,31 +37,34 @@ router.get('/api/pollution/data/:dataSourceId',
     // get PageNumber and pageSize from query params
     // if not present, set default values
     const pageNumber = req.query.page ? parseInt(req.query.page.toString()) : 1;
-    const pageSize = req.query.perPage ? parseInt(req.query.perPage.toString()) : 100;
+    const pageSize = req.query.perPage ? parseInt(req.query.perPage.toString()) : 1000;
+    const startDate = req.query.startDate ? new Date(req.query.startDate.toString()) : new Date('2020-01-01');
+    const endDate = req.query.endDate ? new Date(req.query.endDate.toString()) : new Date();
 
     // get pollution data from database
-    // filter duplicate data based on meta.addedAt and select one which is latest
+    // filter duplicate data based on timestamp and metadata.sourceId
+    // give data from start date to end date
     // use aggregation pipeline
-    // sort in descending order of timestamp which is recordedAt field
-    // skip and limit based on page number and page size
-    // add id field which is _id field
-
 
     const pollutionData = await PollutionData.aggregate([
       {
         $match: {
           'metadata.dataSourceId': dataSource.id,
+          timestamp: {
+            $gte: startDate,
+            $lte: endDate,
+          },
         },
       },
       {
         $sort: {
-          'metadata.addedAt': -1,
+          timestamp: -1,
         },
       },
       {
         $group: {
           _id: {
-            recordedAt: '$recordedAt',
+            timestamp: '$recordedAt',
             sourceId: '$metadata.sourceId',
           },
           data: {
@@ -77,23 +78,33 @@ router.get('/api/pollution/data/:dataSourceId',
         },
       },
       {
-        $sort: {
-          recordedAt: -1,
+        $project: {
+          __v: 0,
         },
       },
       {
-        $skip: (pageNumber - 1) * pageSize,
-      },
-      {
-        $limit: pageSize,
+        $facet: {
+          data: [
+            {
+              $skip: (pageNumber - 1) * pageSize,
+            },
+            {
+              $limit: pageSize,
+            },
+          ],
+          total: [
+            {
+              $count: 'count',
+            },
+          ],
+        },
       },
       {
         $project: {
-          _id: 1,
-          timestamp: 1,
           data: 1,
-          metadata: 1,
-          recordedAt: 1,
+          total: {
+            $arrayElemAt: ['$total.count', 0],
+          },
         },
       },
     ]);
@@ -112,4 +123,5 @@ router.get('/api/pollution/data/:dataSourceId',
 );
 
 
-export { router as getPollutionDataRouter };
+export { router as getPollutionDataDailyRouter };
+
