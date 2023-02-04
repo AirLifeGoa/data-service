@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { app } from './app';
+import dev_config from "./dev-config.json"
 
 const start = async () => {
 
@@ -8,7 +9,7 @@ const start = async () => {
     }
 
     try {
-        await mongoose.connect('mongodb://pollution-service-mongo-srv:27017/pollution');
+        await mongoose.connect('mongodb://0.0.0.0:27017/pollution');
         // await mongoose.connect('mongodb://airlifegoa.dev:27017/auth');
 
         console.log('Connected to MongoDb');
@@ -16,7 +17,7 @@ const start = async () => {
         console.error(err);
     }
 
-    app.listen(3000, () => {
+    app.listen(dev_config["port"], () => {
         console.log('Listening on port 3000!');
     });
 };

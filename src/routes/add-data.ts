@@ -21,11 +21,11 @@ router.post(
       .isObject()
       .withMessage('metadata must be a valid object'),
   ],
-  validateRequest,
-  currentUser,
-  requireAuth,
+//   validateRequest,
+//   currentUser,
+//   requireAuth,
   async (req: Request, res: Response) => {
-
+    console.log("hi");
     if (!req.currentUser) {
       throw new BadRequestError('User not found');
     }

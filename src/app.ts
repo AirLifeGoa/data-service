@@ -20,12 +20,12 @@ app.set('trust proxy', true);
 
 app.use(json());
 app.use(cors({
-  credentials: true,
+    credentials: true,
 }));
 
 app.use(cookieSession({
-  signed: false,
-  secure: process.env.NODE_ENV !== 'test',
+    signed: false,
+    secure: process.env.NODE_ENV !== 'test',
 }));
 
 
