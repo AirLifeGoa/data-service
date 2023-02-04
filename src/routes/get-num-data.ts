@@ -40,7 +40,7 @@ router.get('/api/pollution/data/num-rows/:dataSourceId',
       {
         $group: {
           _id: {
-            timestamp: '$timestamp',
+            recordedAt: '$recordedAt',
           },
         },
       },

@@ -11,9 +11,9 @@ router.post(
   '/api/pollution/data',
   [
     body().isArray(),
-    body('*.timestamp')
+    body('*.recordedAt')
       .isISO8601()
-      .withMessage('Timestamp must be a valid date'),
+      .withMessage('RecordedAt must be a valid date'),
     body('*.data')
       .isObject()
       .withMessage('Data must be a valid object'),
@@ -73,7 +73,7 @@ router.post(
       }
 
       const modifiedData = {
-        timestamp: req.body[i].timestamp,
+        recordedAt: req.body[i].recordedAt,
         data: req.body[i].data,
         uploadedBy: {
           id: userId,

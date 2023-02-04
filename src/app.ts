@@ -13,6 +13,7 @@ import { addDataRouter } from './routes/add-data';
 import { getPollutionDataRouter } from './routes/get-pollution-data';
 import { getNumDataRouter } from './routes/get-num-data';
 import { getDataSourceRouter } from './routes/get-data-source-api';
+import { getPollutionDataDailyRouter } from './routes/get-pollution-data-daily';
 
 const app = express();
 
@@ -45,6 +46,7 @@ app.use(editDataSourceRouter);
 app.use(addDataRouter);
 app.use(getPollutionDataRouter);
 app.use(getNumDataRouter);
+app.use(getPollutionDataDailyRouter);
 
 app.all('*', () => {
   throw new NotFoundError();
