@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 
 import { PollutionData } from '../models/pollution-data';
+import {DataLogs} from "../models/data-log"
 import { body } from 'express-validator';
 import { BadRequestError, currentUser, requireAuth, validateRequest } from '@airlifegoa/common';
 import { DataSource } from '../models/data-source';
@@ -33,11 +34,12 @@ router.post(
     const userId = req.currentUser.id;
 
     const dataStore: any = [];
+    const dataLogs: any = {};
 
     // create a map of searched dataSource info so that we don't have to search for it again and again
     const allowedDataSources = new Map();
     const notAllowedDataSources = new Map();
-
+    
     for (let i = 0; i < req.body.length; i++) {
 
       // get the dataSource id
@@ -51,6 +53,7 @@ router.post(
 
       // check if not in the allowedDataSources map
       if (!allowedDataSources.has(dataSourceId)) {
+        
         const dataSource = await DataSource.findById(dataSourceId);
 
         if (!dataSource) {
@@ -70,6 +73,7 @@ router.post(
           notAllowedDataSources.set(dataSourceId, true);
           continue;
         }
+
       }
 
       const modifiedData = {
@@ -84,11 +88,17 @@ router.post(
       
       dataStore.push(modifiedData);
       allowedDataSources.set(dataSourceId, true);
+
+      if (!dataLogs[dataSourceId]){
+            dataLogs[dataSourceId] = 1;
+        }
+        else{
+            dataLogs[dataSourceId] += 1;
+        }
     }
 
     // print modified data as json
-    console.log(JSON.stringify(dataStore));
-    console.log("here");
+    // console.log(JSON.stringify(dataStore));
     
     // create an array of pollution data
     const pollutionData = dataStore.map((data: any) => {
@@ -96,10 +106,32 @@ router.post(
       },
     );
 
-    console.log(pollutionData, typeof pollutionData[0].recordedAt);
+    console.log(typeof pollutionData[0].recordedAt);
     // save the pollution data
     const result = await PollutionData.insertMany(pollutionData);
-    console.log(result, "here3");
+    
+    for (var dataSourceId in dataLogs){
+        const datalog = await DataLogs.findById(dataSourceId);
+        console.log(datalog);
+        if(datalog == null){
+            
+            await DataLogs.insertMany([{
+                    _id : dataSourceId,
+                    lastUpdated: new Date(),
+                    newDataPoints: dataLogs[dataSourceId],
+                    previousTrainedTime: new Date()
+
+            }]);
+        }else{
+            await DataLogs.updateOne({_id: dataSourceId}, {
+                $set: {
+                    newDataPoints: datalog.newDataPoints + dataLogs[dataSourceId],
+                    lastUpdated: Date.now(),
+                }
+            });
+        }
+    }
+    
     res.status(201).send(pollutionData);
   },
 );
