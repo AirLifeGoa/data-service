@@ -91,7 +91,6 @@ router.get('/api/pollution/data/:dataSourceId',
         $project: {
           _id: 0,
           id: '$_id',
-          timestamp: 1,
           data: 1,
           metadata: 1,
           recordedAt: 1,
