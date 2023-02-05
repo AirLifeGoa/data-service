@@ -21,9 +21,9 @@ router.post(
       .isObject()
       .withMessage('metadata must be a valid object'),
   ],
-//   validateRequest,
-//   currentUser,
-//   requireAuth,
+  validateRequest,
+  currentUser,
+  requireAuth,
   async (req: Request, res: Response) => {
     console.log("hi");
     if (!req.currentUser) {
@@ -81,23 +81,25 @@ router.post(
         },
         metadata: req.body[i].metadata,
       };
-
+      
       dataStore.push(modifiedData);
       allowedDataSources.set(dataSourceId, true);
     }
 
     // print modified data as json
     console.log(JSON.stringify(dataStore));
-
+    console.log("here");
+    
     // create an array of pollution data
     const pollutionData = dataStore.map((data: any) => {
         return PollutionData.build(data);
       },
     );
 
+    console.log(pollutionData, typeof pollutionData[0].recordedAt);
     // save the pollution data
-    await PollutionData.insertMany(pollutionData);
-
+    const result = await PollutionData.insertMany(pollutionData);
+    console.log(result, "here3");
     res.status(201).send(pollutionData);
   },
 );
