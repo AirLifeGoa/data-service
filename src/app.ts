@@ -14,6 +14,7 @@ import { getPollutionDataRouter } from './routes/get-pollution-data';
 import { getNumDataRouter } from './routes/get-num-data';
 import { getDataSourceRouter } from './routes/get-data-source-api';
 import { getPollutionDataDailyRouter } from './routes/get-pollution-data-daily';
+import { getPollutionDataWithFilterRouter } from "./routes/get-pollution-data-with-filters"
 
 const app = express();
 
@@ -21,12 +22,12 @@ app.set('trust proxy', true);
 
 app.use(json());
 app.use(cors({
-  credentials: true,
+    credentials: true,
 }));
 
 app.use(cookieSession({
-  signed: false,
-  secure: process.env.NODE_ENV !== 'test',
+    signed: false,
+    secure: process.env.NODE_ENV !== 'test',
 }));
 
 
@@ -47,6 +48,8 @@ app.use(addDataRouter);
 app.use(getPollutionDataRouter);
 app.use(getNumDataRouter);
 app.use(getPollutionDataDailyRouter);
+app.use(getPollutionDataWithFilterRouter);
+
 
 app.all('*', () => {
   throw new NotFoundError();
