@@ -14,7 +14,9 @@ import { getPollutionDataRouter } from './routes/get-pollution-data';
 import { getNumDataRouter } from './routes/get-num-data';
 import { getDataSourceRouter } from './routes/get-data-source-api';
 import { getPollutionDataDailyRouter } from './routes/get-pollution-data-daily';
+import { getDashboardDataRouter } from './routes/get-ui-data';
 import { getPollutionDataWithFilterRouter } from "./routes/get-pollution-data-with-filters"
+import { getPredictionDataRouter } from './routes/get-prediction-data';
 
 const app = express();
 
@@ -49,6 +51,8 @@ app.use(getPollutionDataRouter);
 app.use(getNumDataRouter);
 app.use(getPollutionDataDailyRouter);
 app.use(getPollutionDataWithFilterRouter);
+app.use(getDashboardDataRouter);
+app.use(getPredictionDataRouter);
 
 
 app.all('*', () => {
