@@ -10,13 +10,9 @@ const router = express.Router();
 
 // url should contain optional query params pageNumber and pageSize
 router.get('/api/pollution/data/:dataSourceId',
-  currentUser,
-  requireAuth,
   async (req: Request, res: Response) => {
 
-    if (!req.currentUser) {
-      throw new BadRequestError('User not found');
-    }
+
 
 
     console.log(req.params.dataSourceId);
@@ -29,12 +25,12 @@ router.get('/api/pollution/data/:dataSourceId',
     // user should be either admin or dp-manager or creator of the data source
     // if not, throw an error
 
-    if (!req.currentUser.roles.admin
-      && !req.currentUser.roles['manager']
-      && !req.currentUser.roles['data-analyst']
-      && !(req.currentUser.id in dataSource.admins)) {
-      throw new BadRequestError('You do not have permission to view this data source');
-    }
+    // if (!req.currentUser.roles.admin
+    //   && !req.currentUser.roles['manager']
+    //   && !req.currentUser.roles['data-analyst']
+    //   && !(req.currentUser.id in dataSource.admins)) {
+    //   throw new BadRequestError('You do not have permission to view this data source');
+    // }
 
     // get PageNumber and pageSize from query params
     // if not present, set default values

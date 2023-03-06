@@ -307,12 +307,7 @@ router.post(
     body('stats').isIn(['min', 'max', 'avg']),
   ],
   validateRequest,
-  currentUser,
-  requireAuth,
   async (req: Request, res: Response) => {
-    if (!req.currentUser) {
-      throw new BadRequestError('User not found');
-    }
 
     console.log(req.params.dataSourceId);
     const dataSource = await DataSource.findById(req.params.dataSourceId);
@@ -324,14 +319,14 @@ router.post(
     // user should be either admin or dp-manager or creator of the data source
     // if not, throw an error
 
-    if (
-      !req.currentUser.roles.admin &&
-      !req.currentUser.roles['manager'] &&
-      !req.currentUser.roles['data-analyst'] &&
-      !(req.currentUser.id in dataSource.admins)
-    ) {
-      throw new BadRequestError('You do not have permission to view this data source');
-    }
+    // if (
+    //   !req.currentUser.roles.admin &&
+    //   !req.currentUser.roles['manager'] &&
+    //   !req.currentUser.roles['data-analyst'] &&
+    //   !(req.currentUser.id in dataSource.admins)
+    // ) {
+    //   throw new BadRequestError('You do not have permission to view this data source');
+    // }
 
     const startDate = new Date(req.body.startDate);
     const endDate = new Date(req.body.endDate);

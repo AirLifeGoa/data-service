@@ -9,8 +9,6 @@ const router = express.Router();
 
 // url should contain optional query params pageNumber and pageSize
 router.get('/api/pollution/data/daily/:dataSourceId',
-  currentUser,
-  requireAuth,
   async (req: Request, res: Response) => {
 
     if (!req.currentUser) {
