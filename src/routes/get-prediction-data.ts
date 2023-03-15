@@ -38,7 +38,7 @@ router.post(
     } else {
       endDate = new Date(new Date().setHours(0, 0, 0, 0));
       endDate = new Date(endDate.getTime() + 1000 * 60 * 30 * 11);
-      endDate.setDate(endDate.getDate());
+      endDate.setDate(endDate.getDate() + 7);
     }
 
     if (!dataSource) {
