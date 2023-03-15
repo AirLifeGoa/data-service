@@ -4,18 +4,20 @@ import { PollutionData } from '../models/pollution-data';
 import { PredictionData } from '../models/prediction-data';
 import { DataSource } from '../models/data-source';
 import { body } from 'express-validator';
-import { BadRequestError, currentUser, requireAuth } from '@airlifegoa/common';
+import { BadRequestError} from '@airlifegoa/common';
 
 const router = express.Router();
 
 // url should contain optional query params pageNumber and pageSize
-router.get('/api/dashboard/data/:dataSourceId', currentUser, requireAuth, async (req: Request, res: Response) => {
-  if (!req.currentUser) {
-    throw new BadRequestError('User not found');
-  }
+router.get('/api/pollution/dashboard/data/:dataSourceId', async (req: Request, res: Response) => {
+  // if (!req.currentUser) {
+  //   throw new BadRequestError('User not found');
+  // }
 
   console.log(req.params.dataSourceId);
   const dataSource = await DataSource.findById(req.params.dataSourceId);
+
+  console.log(dataSource);
 
   if (!dataSource) {
     throw new BadRequestError('Data source not found');
@@ -205,7 +207,12 @@ router.get('/api/dashboard/data/:dataSourceId', currentUser, requireAuth, async 
     },
   ]);
 
-  data['metrics'] = predictionData[0].data;
+  if (predictionData.length > 0) {
+    data['prediction'] = predictionData[0].data;
+  }
+  else {
+    data['prediction'] = null;
+  }
 
   res.status(200).send(data);
 });

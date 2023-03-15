@@ -17,6 +17,7 @@ import { getPollutionDataDailyRouter } from './routes/get-pollution-data-daily';
 import { getDashboardDataRouter } from './routes/get-ui-data';
 import { getPollutionDataWithFilterRouter } from "./routes/get-pollution-data-with-filters"
 import { getPredictionDataRouter } from './routes/get-prediction-data';
+import { getTempWindDataRouter } from './routes/get-temp-wind-data-api';
 
 const app = express();
 
@@ -54,6 +55,7 @@ app.use(getPollutionDataDailyRouter);
 app.use(getPollutionDataWithFilterRouter);
 app.use(getDashboardDataRouter);
 app.use(getPredictionDataRouter);
+app.use(getTempWindDataRouter);
 
 
 app.all('*', () => {
