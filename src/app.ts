@@ -21,6 +21,7 @@ import { getMissingData } from './routes/get-missing-data-count';
 import { getAllStationDashboardDataRouter } from './routes/get-all-station-latest-data';
 import { getCapitalDataRouter } from './routes/get-capital-data';
 
+import { getTempWindDataRouter } from './routes/get-temp-wind-data-api';
 
 const app = express();
 
@@ -64,6 +65,8 @@ app.use(getPredictionDataRouter);
 app.use(getMissingData);
 app.use(getAllStationDashboardDataRouter);
 app.use(getCapitalDataRouter);
+app.use(getTempWindDataRouter);
+
 
 app.all('*', () => {
   throw new NotFoundError();
