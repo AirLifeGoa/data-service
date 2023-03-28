@@ -19,6 +19,7 @@ import { getPollutionDataWithFilterRouter } from './routes/get-pollution-data-wi
 import { getPredictionDataRouter } from './routes/get-prediction-data';
 import { getMissingData } from './routes/get-missing-data-count';
 import { getAllStationDashboardDataRouter } from './routes/get-all-station-latest-data';
+import { getCapitalDataRouter } from './routes/get-capital-data';
 
 
 const app = express();
@@ -62,6 +63,7 @@ app.use(getDashboardDataRouter);
 app.use(getPredictionDataRouter);
 app.use(getMissingData);
 app.use(getAllStationDashboardDataRouter);
+app.use(getCapitalDataRouter);
 
 app.all('*', () => {
   throw new NotFoundError();
