@@ -5,8 +5,8 @@ import dev_config from './dev-config.json';
 const start = async () => {
 
   if (!process.env.JWT_KEY) {
-    // process.env.JWT_KEY = 'asdf';
-    throw new Error('No JWT_KEY defined');
+    process.env.JWT_KEY = 'asdf';
+    // throw new Error('No JWT_KEY defined');
   }
 
   try {
