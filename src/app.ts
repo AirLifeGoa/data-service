@@ -17,6 +17,9 @@ import { getPollutionDataDailyRouter } from './routes/get-pollution-data-daily';
 import { getDashboardDataRouter } from './routes/get-ui-data';
 import { getPollutionDataWithFilterRouter } from "./routes/get-pollution-data-with-filters"
 import { getPredictionDataRouter } from './routes/get-prediction-data';
+import {getTempWindDataRouter} from "./routes/get-temp-wind-data-api";
+import {getMissingData} from "./routes/get-missing-data-count";
+import {getAllStationDashboardDataRouter} from "./routes/get-all-station-latest-data";
 
 const app = express();
 
