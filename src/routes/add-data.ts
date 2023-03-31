@@ -12,9 +12,9 @@ router.post(
   '/api/pollution/data',
   [
     body().isArray(),
-    body('*.recordedAt')
-      .isISO8601()
-      .withMessage('RecordedAt must be a valid date'),
+    // body('*.recordedAt')
+    //   .isISO8601()
+    //   .withMessage('RecordedAt must be a valid date'),
     body('*.data')
       .isObject()
       .withMessage('Data must be a valid object'),
