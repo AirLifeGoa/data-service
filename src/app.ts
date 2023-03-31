@@ -17,22 +17,26 @@ import { getPollutionDataDailyRouter } from './routes/get-pollution-data-daily';
 import { getDashboardDataRouter } from './routes/get-ui-data';
 import { getPollutionDataWithFilterRouter } from "./routes/get-pollution-data-with-filters"
 import { getPredictionDataRouter } from './routes/get-prediction-data';
-import { getTempWindDataRouter } from './routes/get-temp-wind-data-api';
 
 const app = express();
 
 app.set('trust proxy', true);
 
 app.use(json());
-app.use(cors({
+app.use(
+  cors({
+    origin: 'http://localhost:3006',
     credentials: true,
-}));
+  }),
+);
 
-app.use(cookieSession({
+app.use(
+  cookieSession({
     signed: false,
     secure: process.env.NODE_ENV !== 'test',
+  }),
+);
 
-}));
 
 
 // app.use(cookieSession({
@@ -55,6 +59,8 @@ app.use(getPollutionDataDailyRouter);
 app.use(getPollutionDataWithFilterRouter);
 app.use(getDashboardDataRouter);
 app.use(getPredictionDataRouter);
+app.use(getMissingData);
+app.use(getAllStationDashboardDataRouter);
 app.use(getTempWindDataRouter);
 
 
