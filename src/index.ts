@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { app } from './app';
-import dev_config from './dev-config.json';
+import dev_config from "./dev-config.json"
 
 const start = async () => {
 
