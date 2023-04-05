@@ -30,7 +30,7 @@ app.set('trust proxy', true);
 app.use(json());
 app.use(
   cors({
-    origin: 'http://localhost:3006',
+    origin: 'http://localhost:3000',
     credentials: true,
   }),
 );

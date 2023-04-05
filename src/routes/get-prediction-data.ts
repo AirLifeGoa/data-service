@@ -23,6 +23,8 @@ router.post(
     const num_days_back = 50;
     // change it to days after the meeting
 
+    console.log(req.body.startDate, typeof req.body.startDate);
+
     var startDate, endDate;
     if (req.body.startDate !== undefined && req.body.startDate !== null) {
       startDate = new Date(req.body.startDate);
@@ -49,7 +51,7 @@ router.post(
     //   todaysdate = new Date(todaysdate.getTime() + 1000 * 60 * 30 * 11);
     //   var tomorrow = new Date(todaysdate.getTime() + 1000 * 60 * 60 * 24);
 
-    console.log(startDate, endDate, req.body);
+    console.log(startDate, typeof startDate ,endDate, req.body);
 
     const predictionData = await PredictionData.aggregate([
       {
@@ -60,6 +62,27 @@ router.post(
             $gte: startDate,
             $lte: endDate,
           },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            timestamp: '$recordedAt',
+            sourceId: '$metadata.sourceId',
+          },
+          data: {
+            $first: '$$ROOT',
+          },
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: '$data',
+        },
+      },
+      {
+        $sort: {
+          recordedAt: 1,
         },
       },
     ]);
