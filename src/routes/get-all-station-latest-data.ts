@@ -44,7 +44,7 @@ router.get(
         $group: {
           _id: {
             recordedAt: '$recordedAt',
-            sourceId: '$metadata.sourceId',
+            sourceId: '$metadata.dataSourceId',
           },
           data: {
             $first: '$$ROOT',
