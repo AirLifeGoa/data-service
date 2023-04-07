@@ -51,7 +51,7 @@ router.post(
     //   todaysdate = new Date(todaysdate.getTime() + 1000 * 60 * 30 * 11);
     //   var tomorrow = new Date(todaysdate.getTime() + 1000 * 60 * 60 * 24);
 
-    console.log(startDate, typeof startDate ,endDate, req.body);
+    console.log(startDate, typeof startDate, endDate, req.body);
 
     const predictionData = await PredictionData.aggregate([
       {

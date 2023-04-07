@@ -22,6 +22,7 @@ import { getAllStationDashboardDataRouter } from './routes/get-all-station-lates
 import { getCapitalDataRouter } from './routes/get-capital-data';
 import { getDataSourceMappingRouter } from './routes/get-all-station-mapping';
 import { getTempWindDataRouter } from './routes/get-temp-wind-data-api';
+import { getMetricDataRouter } from './routes/get-metric-data';
 
 const app = express();
 
@@ -66,8 +67,8 @@ app.use(getMissingData);
 app.use(getAllStationDashboardDataRouter);
 app.use(getCapitalDataRouter);
 app.use(getTempWindDataRouter);
-app.use(getDataSourceMappingRouter)
-
+app.use(getDataSourceMappingRouter);
+app.use(getMetricDataRouter);
 
 
 app.all('*', () => {

@@ -13,7 +13,7 @@ router.get("/api/pollution/datasourcemapping", async (req: Request, res: Respons
   for (var i=0;i<dataSources.length;i++){
     mapping[dataSources[i]._id]= dataSources[i].name
   }
-  //console.log(mapping);
+  console.log(mapping);
   res.status(200).send(mapping);
 });
 
