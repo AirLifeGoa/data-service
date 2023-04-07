@@ -9,8 +9,8 @@ const router = express.Router();
 router.get("/api/pollution/datasourcemapping", async (req: Request, res: Response) => {
   const dataSources = await DataSource.find({}).sort({ _id: 1 });
 //   console.log(dataSources);
-  var mapping: any = {};
-  for (var i=0;i<dataSources.length;i++){
+  const mapping: any = {};
+  for (let i=0;i<dataSources.length;i++){
     mapping[dataSources[i]._id]= dataSources[i].name
   }
   //console.log(mapping);

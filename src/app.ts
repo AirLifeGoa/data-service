@@ -20,9 +20,8 @@ import { getPredictionDataRouter } from './routes/get-prediction-data';
 import { getMissingData } from './routes/get-missing-data-count';
 import { getAllStationDashboardDataRouter } from './routes/get-all-station-latest-data';
 import { getCapitalDataRouter } from './routes/get-capital-data';
-
 import { getTempWindDataRouter } from './routes/get-temp-wind-data-api';
-
+import {getDataSourceMappingRouter} from './routes/get-all-station-mapping';
 const app = express();
 
 app.set('trust proxy', true);
@@ -66,6 +65,7 @@ app.use(getMissingData);
 app.use(getAllStationDashboardDataRouter);
 app.use(getCapitalDataRouter);
 app.use(getTempWindDataRouter);
+app.use(getDataSourceMappingRouter);
 
 
 app.all('*', () => {

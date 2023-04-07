@@ -11,12 +11,10 @@ const router = express.Router();
 router.post(
   '/api/pollution/prediction/:dataSourceId',
   [body('modelName').isIn(['lstm', 'prophet', 'arima', 'hybrid-lstm']).withMessage('Specified Model is not available')],
-  currentUser,
-  requireAuth,
   async (req: Request, res: Response) => {
-    if (!req.currentUser) {
-      throw new BadRequestError('User not found');
-    }
+    // if (!req.currentUser) {
+    //   throw new BadRequestError('User not found');
+    // }
 
     console.log(req.params.dataSourceId);
     const dataSource = await DataSource.findById(req.params.dataSourceId);

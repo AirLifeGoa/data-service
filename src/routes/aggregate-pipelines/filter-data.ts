@@ -1,16 +1,11 @@
 // import express, { Request, Response } from 'express';
 
-<<<<<<< HEAD
-import { PollutionData} from "../../models/pollution-data";
-import { DataSource} from "../../models/data-source";
-import { body } from 'express-validator';
-import { BadRequestError, currentUser, requireAuth } from '@airlifegoa/common';
-=======
+
 // import { PollutionData } from '../models/pollution-data';
 // import { DataSource } from '../models/data-source';
 // import { body } from 'express-validator';
 // import { BadRequestError, currentUser, requireAuth } from '@airlifegoa/common';
->>>>>>> 2c5a592e51c5aae979faa160a53d5cda7b287bb0
+
 
 // const router = express.Router();
 
