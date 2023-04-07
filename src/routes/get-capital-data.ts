@@ -9,11 +9,8 @@ import { BadRequestError, currentUser, requireAuth } from '@airlifegoa/common';
 const router = express.Router();
 
 // url should contain optional query params pageNumber and pageSize
-router.get('/api/pollution/dashboard/capital', currentUser, requireAuth, async (req: Request, res: Response) => {
-  if (!req.currentUser) {
-    throw new BadRequestError('User not found');
-  }
-
+router.get('/api/pollution/dashboard/capital', async (req: Request, res: Response) => {
+  
   // user should be either admin or dp-manager or creator of the data source
   // if not, throw an error
   // if (!req.currentUser.roles.admin
@@ -111,7 +108,9 @@ router.get('/api/pollution/dashboard/capital', currentUser, requireAuth, async (
   ]);
   console.log(forecastsFOrTomorrow);
 
-  data.forecastsForTomorrow = forecastsFOrTomorrow[0].data;
+    if (forecastsFOrTomorrow.length !==0){
+        data.forecastsForTomorrow = forecastsFOrTomorrow[0].data;
+    }
   res.status(200).send(data);
 });
 
