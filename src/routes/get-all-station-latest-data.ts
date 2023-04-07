@@ -11,12 +11,7 @@ const router = express.Router();
 // url should contain optional query params pageNumber and pageSize
 router.get(
   '/api/pollution/dashboard/allstationsdata',
-  currentUser,
-  requireAuth,
   async (req: Request, res: Response) => {
-    if (!req.currentUser) {
-      throw new BadRequestError('User not found');
-    }
 
     // user should be either admin or dp-manager or creator of the data source
     // if not, throw an error
