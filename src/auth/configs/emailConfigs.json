@@ -1,0 +1,7 @@
+{
+    "sendGridApiKey": "your_sendgrid_api_key",
+    "adminEmail": "your_email_address",
+    "verifyEndPointUrl": "https://airlifegoa.dev/user/verify-email/",
+    "ChangeRoleUrl": "https://airlifegoa.dev/user/changerole/",
+    "appLogoUrl": "data:image/png;base64,"
+}
