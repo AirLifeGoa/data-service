@@ -15,7 +15,7 @@ import { getNumDataRouter } from './routes/get-num-data';
 import { getDataSourceRouter } from './routes/get-data-source-api';
 import { getPollutionDataDailyRouter } from './routes/get-pollution-data-daily';
 import { getDashboardDataRouter } from './routes/get-ui-data';
-import { getPollutionDataWithFilterRouter } from "./routes/get-pollution-data-with-filters"
+import { getPollutionDataWithFilterRouter } from './routes/get-pollution-data-with-filters';
 import { getPredictionDataRouter } from './routes/get-prediction-data';
 import { getMissingData } from './routes/get-missing-data-count';
 import { getAllStationDashboardDataRouter } from './routes/get-all-station-latest-data';
@@ -69,7 +69,6 @@ app.use(getCapitalDataRouter);
 app.use(getTempWindDataRouter);
 app.use(getDataSourceMappingRouter);
 app.use(getMetricDataRouter);
-
 
 app.all('*', () => {
   throw new NotFoundError();
