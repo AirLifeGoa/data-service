@@ -36,7 +36,9 @@
     "mongoose": "^6.8.3",
     "nodemailer": "^6.9.0",
     "ts-node-dev": "^2.0.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "crypto-js": "^4.1.1",
+    "nodemailer-express-handlebars": "^6.0.0"
   },
   "devDependencies": {
     "@types/jest": "^29.2.5",
