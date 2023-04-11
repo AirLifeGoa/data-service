@@ -19,7 +19,7 @@ const QueryList = {
                 "data.data.NO2": { "$ifNull": [ "$data.data.NO2", 0 ] },
                 "data.data.Pb": { "$ifNull": [ "$data.data.Pb", 0 ] },
                 "data.data.O3": { "$ifNull": [ "$data.data.O3", 0 ] },
-                "data.data.PM25": { "$ifNull": [ "$data.data.PM2.5", 0 ] },
+                "data.data.PM25": { "$ifNull": [ "$data.data.PM25", 0 ] },
                 "_id": 1,
                 "data.recordedAt": "$data.recordedAt",
                 "data.metadata" : "$data.metadata",
@@ -95,6 +95,11 @@ const QueryList = {
               recordedAt: 1,
               uploadedBy: 1,
             },
+        },
+        {
+            $sort:{
+                "recordedAt":1
+            }
         }
     ],
     "min_pipeline":[
@@ -105,7 +110,7 @@ const QueryList = {
                 "data.data.NO2": { "$ifNull": [ "$data.data.NO2", "null" ] },
                 "data.data.Pb": { "$ifNull": [ "$data.data.Pb", "null" ] },
                 "data.data.O3": { "$ifNull": [ "$data.data.O3", "null" ] },
-                "data.data.PM25": { "$ifNull": [ "$data.data.PM2.5", "null" ] },
+                "data.data.PM25": { "$ifNull": [ "$data.data.PM25", "null" ] },
                 "_id": 1,
                 "data.recordedAt": "$data.recordedAt",
                 "data.metadata" : "$data.metadata",
@@ -155,7 +160,7 @@ const QueryList = {
                   $min:"$data.data.Pb"
                 },
                 "minPM25": {
-                  $min:"$data.data.PM2.5"
+                  $min:"$data.data.PM25"
                 },
               }  
         },
@@ -194,6 +199,11 @@ const QueryList = {
               recordedAt: 1,
               uploadedBy: 1,
             },
+        },
+        {
+            $sort:{
+                "recordedAt":1
+            }
         }
     ],
     "max_pipeline":[
@@ -204,7 +214,7 @@ const QueryList = {
                 "data.data.NO2": { "$ifNull": [ "$data.data.NO2", "null" ] },
                 "data.data.Pb": { "$ifNull": [ "$data.data.Pb", "null" ] },
                 "data.data.O3": { "$ifNull": [ "$data.data.O3", "null" ] },
-                "data.data.PM25": { "$ifNull": [ "$data.data.PM2.5", "null" ] },
+                "data.data.PM25": { "$ifNull": [ "$data.data.PM25", "null" ] },
                 "_id": 1,
                 "data.recordedAt": "$data.recordedAt",
                 "data.metadata" : "$data.metadata",
@@ -254,7 +264,7 @@ const QueryList = {
                   $max:"$data.data.Pb"
                 },
                 "maxPM25": {
-                  $max:"$data.data.PM2.5"
+                  $max:"$data.data.PM25"
                 },
             }
         },
@@ -293,6 +303,11 @@ const QueryList = {
               recordedAt: 1,
               uploadedBy: 1,
             },
+        },
+        {
+            $sort:{
+                "recordedAt":1
+            }
         }
     ]
 };
@@ -340,6 +355,8 @@ router.post(
       filterValue = { $month: '$recordedAt' };
     } else if (filterValue == 'yearly') {
       filterValue = { $year: '$recordedAt' };
+    } else if (filterValue == "daily"){
+      filterValue = {timestamp: '$recordedAt'};
     }
     
     console.log(filterValue);

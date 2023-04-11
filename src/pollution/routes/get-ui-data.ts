@@ -4,7 +4,7 @@ import { PollutionData } from '../models/pollution-data';
 import { PredictionData } from '../models/prediction-data';
 import { DataSource } from '../models/data-source';
 import { body } from 'express-validator';
-import { BadRequestError} from '@airlifegoa/common';
+import { BadRequestError } from '@airlifegoa/common';
 
 const router = express.Router();
 
@@ -119,7 +119,7 @@ router.get('/api/pollution/dashboard/data/:dataSourceId', async (req: Request, r
         'data.data.NO2': { $ifNull: ['$data.data.NO2', 'null'] },
         'data.data.Pb': { $ifNull: ['$data.data.Pb', 'null'] },
         'data.data.O3': { $ifNull: ['$data.data.O3', 'null'] },
-        'data.data.PM25': { $ifNull: ['$data.data.PM2.5', 'null'] },
+        'data.data.PM25': { $ifNull: ['$data.data.PM25', 'null'] },
         _id: 1,
         'data.recordedAt': '$data.recordedAt',
         'data.metadata': '$data.metadata',
@@ -194,6 +194,7 @@ router.get('/api/pollution/dashboard/data/:dataSourceId', async (req: Request, r
   var todaysdate = new Date(new Date().setHours(0, 0, 0, 0));
   todaysdate = new Date(todaysdate.getTime() + 1000 * 60 * 30 * 11);
   var tomorrow = new Date(todaysdate.getTime() + 1000 * 60 * 60 * 24);
+  
 
   const predictionData = await PredictionData.aggregate([
     {
@@ -209,8 +210,7 @@ router.get('/api/pollution/dashboard/data/:dataSourceId', async (req: Request, r
 
   if (predictionData.length > 0) {
     data['prediction'] = predictionData[0].data;
-  }
-  else {
+  } else {
     data['prediction'] = null;
   }
 
