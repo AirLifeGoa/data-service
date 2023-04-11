@@ -302,7 +302,7 @@ router.post(
   '/api/pollution/data/filter/:dataSourceId',
   [
     body('startDate').isDate().withMessage('start date should be in date format'),
-    body('endDate').isDate().withMessage('start date should be in date format'),
+    body('endDate').isDate().withMessage('end date should be in date format'),
     body('filter').isIn(['daily', 'weekly', 'monthly', 'yearly']),
     body('stats').isIn(['min', 'max', 'avg']),
   ],
