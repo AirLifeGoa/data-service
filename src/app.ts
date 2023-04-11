@@ -47,7 +47,6 @@ app.use(
   }),
 );
 
-app.set('trust proxy', true);
 
 app.use(json());
 
@@ -57,7 +56,6 @@ app.use(
     signed: false,
     secure : false,
     httpOnly: true,
-    sameSite: 'none',
   }),
 );
 
