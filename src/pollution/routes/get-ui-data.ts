@@ -5,6 +5,7 @@ import { PredictionData } from '../models/prediction-data';
 import { DataSource } from '../models/data-source';
 import { body } from 'express-validator';
 import { BadRequestError } from '@airlifegoa/common';
+import { ModelLogData } from '../models/model-logs';
 
 const router = express.Router();
 
@@ -91,6 +92,10 @@ router.get('/api/pollution/dashboard/data/:dataSourceId', async (req: Request, r
   ]);
 
   console.log(stationData);
+  if (stationData.length == 0) {
+    var error_msg = 'Datasource pollution data not found';
+    res.status(200).send(error_msg);
+  }
   const latestDate = stationData[0].recordedAt;
   console.log('new date', latestDate);
 
@@ -185,7 +190,10 @@ router.get('/api/pollution/dashboard/data/:dataSourceId', async (req: Request, r
 
   // send data as well as next page number and page size
   // if no more data, send null for next page number and page size
-
+  if (highLowData.length == 0) {
+    var error_msg = 'Datasource pollution data not found';
+    res.status(200).send(error_msg);
+  }
   let data: any = {};
   data['metrics'] = stationData[0]['data'];
   data['high'] = highLowData[0].high;
@@ -194,7 +202,29 @@ router.get('/api/pollution/dashboard/data/:dataSourceId', async (req: Request, r
   var todaysdate = new Date(new Date().setHours(0, 0, 0, 0));
   todaysdate = new Date(todaysdate.getTime() + 1000 * 60 * 30 * 11);
   var tomorrow = new Date(todaysdate.getTime() + 1000 * 60 * 60 * 24);
-  
+
+  const ModelLogs = await ModelLogData.aggregate([
+    {
+      $match: {
+        'metadata.dataSourceId': '2',
+      },
+    },
+    {
+      $sort: {
+        recordedAt: -1,
+      },
+    },
+    {
+      $limit: 1,
+    },
+  ]);
+
+  if (ModelLogs.length == 0) {
+    data['prediction'] = null;
+    res.status(200).send(data);
+  }
+
+  console.log('modelog ', ModelLogs);
 
   const predictionData = await PredictionData.aggregate([
     {
@@ -204,6 +234,7 @@ router.get('/api/pollution/dashboard/data/:dataSourceId', async (req: Request, r
           $gte: todaysdate,
           $lte: tomorrow,
         },
+        'metadata.modelName': ModelLogs[0].bestModel,
       },
     },
   ]);

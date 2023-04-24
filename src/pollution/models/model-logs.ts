@@ -2,45 +2,38 @@ import mongoose from 'mongoose';
 
 // this model will store time series data for pollution in a pollution collection
 
-interface PollutionDataAttrs {
+interface ModelLogDataAttrs {
   recordedAt: Date;
   data: {
     [key: string]: number;
   };
 
-  uploadedBy: {
-    type: 'sensor' | 'manual';
-    id: string;
-  };
-
   metadata: {
     dataSourceId: string;
+    lastTrainingPoint: Date
   };
+  bestModel: string;
 }
 
-interface PollutionDataModel extends mongoose.Model<PollutionDataDoc> {
-  build(attrs: PollutionDataAttrs): PollutionDataDoc;
+interface ModelLogDataModel extends mongoose.Model<ModelLogDataDoc> {
+  build(attrs: ModelLogDataAttrs): ModelLogDataDoc;
 }
 
-interface PollutionDataDoc extends mongoose.Document {
-  recordedAt: Date;
-
-  data: {
-    [key: string]: number;
-  };
-  uploadedBy: {
-    type: 'sensor' | 'manual';
-    id: string;
-  };
-
-  metadata: {
-    dataSourceId: string;
-    addedAt: Date;
-  };
+interface ModelLogDataDoc extends mongoose.Document {
+    recordedAt: Date;
+    data: {
+      [key: string]: number;
+    };
+  
+    metadata: {
+      dataSourceId: string;
+      lastTrainingPoint: Date
+    };
+    bestModel: string;
 
 }
 
-const pollutionDataSchema = new mongoose.Schema(
+const ModelLogDataSchema = new mongoose.Schema(
   {
     recordedAt: {
       type: Date,
@@ -53,23 +46,12 @@ const pollutionDataSchema = new mongoose.Schema(
       required: true,
     },
 
-    uploadedBy: {
-      type: {
-        type: String,
-        required: true,
-      },
-      id: {
-        type: String,
-        required: true,
-      },
-    },
-
     metadata: {
       dataSourceId: {
         type: String,
         required: true,
       },
-      addedAt: {
+      lastTrainingPoint: {
         type: Date,
         required: true,
       },
@@ -91,17 +73,17 @@ const pollutionDataSchema = new mongoose.Schema(
   },
 );
 
-pollutionDataSchema.statics.build = (attrs: PollutionDataAttrs) => {
+ModelLogDataSchema.statics.build = (attrs: ModelLogDataAttrs) => {
   const newAttrs = {
     ...attrs,
     metadata: {
       dataSourceId: attrs.metadata.dataSourceId,
-      addedAt: new Date(),
+      lastTrainingPoint: new Date(),
     },
   };
-  return new PollutionData(newAttrs);
+  return new ModelLogData(newAttrs);
 };
 
-const PollutionData = mongoose.model<PollutionDataDoc, PollutionDataModel>('PollutionData', pollutionDataSchema);
+const ModelLogData = mongoose.model<ModelLogDataDoc, ModelLogDataModel>('modellogs', ModelLogDataSchema);
 
-export { PollutionData };
+export { ModelLogData };
