@@ -35,11 +35,11 @@ export const sendMail = async (email: string, name: string, token: string) => {
   const handlebarOptions: NodemailerExpressHandlebarsOptions = {
     viewEngine: {
       extname: '.handlebars',
-      partialsDir: './src/emailTemplates/',
-      layoutsDir: './src/emailTemplates/',
+      partialsDir: './src/auth/emailTemplates/',
+      layoutsDir: './src/auth/emailTemplates/',
       defaultLayout: 'emailVerification',
     },
-    viewPath: './src/emailTemplates/',
+    viewPath: './src/auth/emailTemplates/',
     extName: '.handlebars',
   };
 
