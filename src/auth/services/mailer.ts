@@ -26,8 +26,8 @@ export const sendMail = async (email: string, name: string, token: string) => {
     port: 465,
     secure: true,
     auth: {
-      user: 'balijapellypranav2507@gmail.com',
-      pass: 'ogcdyfjekfkchfsb',
+      user: 'airlifegoa@gmail.com',
+      pass: 'akapvkinrgedjwmj',
     },
   });
 
