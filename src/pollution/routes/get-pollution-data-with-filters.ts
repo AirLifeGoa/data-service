@@ -8,6 +8,165 @@ import { BadRequestError, currentUser, requireAuth, validateRequest } from '@air
 const router = express.Router();
 
 const QueryList = {
+  avg_monthly_pipeline:[
+    {
+        $group: {
+        _id: {
+            year: {
+            $year: "$recordedAt",
+            },
+            month: {
+            $month: "$recordedAt",
+            },
+        },
+        SO2: {
+            $avg: "$data.SO2",
+        },
+        PM10: {
+            $avg: "$data.PM10",
+        },
+        O3: {
+            $avg: "$data.O3",
+        },
+        CO: {
+            $avg: "$data.CO",
+        },
+        NO2: {
+            $avg: "$data.NO2",
+        },
+        PM25: {
+            $avg: "$data.PM25",
+        },
+        Pb: {
+            $avg: "$data.Pb",
+        },
+        AQI: {
+            $avg: "$data.AQI",
+        },
+        recordedAt: {
+            $first: {
+            $dateFromParts: {
+                year: {
+                $year: "$recordedAt",
+                },
+                month: {
+                $month: "$recordedAt",
+                },
+                day: 1,
+            },
+            },
+        },
+        data: {
+            $first: "$$ROOT",
+        },
+        },
+    },
+    {
+        $project: {
+        _id: "$_id",
+        recordedAt: "$data.recordedAt",
+        metadata: "$data.metadata",
+        uploadedBy: "$data.uploadedBy",
+        "data.PM10": "$PM10",
+        "data.PM25": "$PM25",
+        "data.SO2": "$SO2",
+        "data.NO2": "$NO2",
+        "data.Pb": "$Pb",
+        "data.O3": "$O3",
+        "data.CO": "$CO",
+        "data.AQI": "$AQI",
+        },
+    },
+    {
+        $sort:
+        {
+            recordedAt: 1,
+        },
+    },
+  ],
+  avg_week_pipeline:[
+    {
+        $addFields: {
+          weekStart: {
+            $dateToString: {
+              format: "%Y-%m-%d",
+              date: {
+                $subtract: [
+                  "$recordedAt",
+                  {
+                    $multiply: [
+                      {
+                        $subtract: [
+                          {
+                            $dayOfWeek: "$recordedAt",
+                          },
+                          2,
+                        ],
+                      },
+                      24 * 60 * 60 * 1000,
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+      {
+        $group: {
+          _id: "$weekStart",
+          SO2: {
+            $avg: "$data.SO2",
+          },
+          PM10: {
+            $avg: "$data.PM10",
+          },
+          O3: {
+            $avg: "$data.O3",
+          },
+          CO: {
+            $avg: "$data.CO",
+          },
+          NO2: {
+            $avg: "$data.NO2",
+          },
+          PM25: {
+            $avg: "$data.PM25",
+          },
+          Pb: {
+            $avg: "$data.Pb",
+          },
+          AQI: {
+            $avg: "$data.AQI",
+          },
+          data: {
+            $first: "$$ROOT",
+          },
+        },
+      },
+      {
+        $project: {
+          _id: "$data._id",
+          recordedAt: "$data.recordedAt",
+          "data.PM10": "$PM10",
+          "data.PM25": "$PM25",
+          "data.SO2": "$SO2",
+          "data.NO2": "$NO2",
+          "data.Pb": "$Pb",
+          "data.AQI": "$AQI",
+          "data.CO": "$CO",
+          "data.O3": "$O3",
+          metadta: "$data.metadata",
+          uploadedBy: "$data.uploadedBy",
+        },
+      },
+      {
+        $sort:
+          {
+            recordedAt: 1,
+          },
+      },
+  ],
   avg_pipeline: [
     {
       $unwind: '$data',
@@ -458,7 +617,17 @@ router.post(
       pipeline = pipeline.concat(QueryList['min_pipeline']);
     } else if (query === 'max') {
       pipeline = pipeline.concat(QueryList['max_pipeline']);
-    } else if (query === 'avg') {
+    }else if (query === 'avg'  && req.body.filter == "weekly"){
+        pipeline = pipeline.slice(0, pipeline.length -2);
+        pipeline = pipeline.concat(QueryList['avg_week_pipeline']);
+        // console.log
+    } 
+    else if (query === 'avg'  && req.body.filter == "monthly"){
+        pipeline = pipeline.slice(0, pipeline.length -2);
+        pipeline = pipeline.concat(QueryList['avg_monthly_pipeline']);
+        // console.log
+    } 
+    else if (query === 'avg' ) {
       console.log('inside avg');
       // pipeline.push(QueryList.avg);
       pipeline = pipeline.concat(QueryList['avg_pipeline']);
