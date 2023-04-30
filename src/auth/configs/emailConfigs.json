@@ -1,7 +1,7 @@
 {
     "sendGridApiKey": "your_sendgrid_api_key",
     "adminEmail": "your_email_address",
-    "verifyEndPointUrl": "https://airlifegoa.dev/user/verify-email/",
-    "ChangeRoleUrl": "https://airlifegoa.dev/user/changerole/",
+    "verifyEndPointUrl": "http://jackfruit.iitgoa.ac.in:3000/user/verify-email/",
+    "ChangeRoleUrl": "http://jackfruit.iitgoa.ac.in:3000/user/changerole/",
     "appLogoUrl": "data:image/png;base64,"
 }
