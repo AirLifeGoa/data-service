@@ -191,6 +191,12 @@ const QueryList = {
         'data.data.PM25': {
           $ifNull: ['$data.data.PM25', 0],
         },
+        'data.data.AQI': {
+          $ifNull: ['$data.data.AQI', 0],
+        },
+        'data.data.CO': {
+            $ifNull: ['$data.data.CO', 0],
+        },
         _id: 1,
         'data.recordedAt': '$data.recordedAt',
         'data.metadata': '$data.metadata',
@@ -224,6 +230,12 @@ const QueryList = {
         avgPb: {
           $avg: '$data.data.Pb',
         },
+        avgAQI: {
+            $avg: '$data.data.AQI',
+        },
+        avgCO: {
+            $avg: '$data.data.CO',
+        },
         data: {
           $first: '$$ROOT',
         },
@@ -253,6 +265,8 @@ const QueryList = {
         avgO3: 1,
         avgPM25: 1,
         avgPb: 1,
+        avgAQI: 1,
+        avgCO: 1,
       },
     },
     {
@@ -268,6 +282,8 @@ const QueryList = {
         'data.data.PM25': '$avgPM25',
         'data.data.O3': '$avgO3',
         'data.data.NO2': '$avgNO2',
+        'data.data.AQI': '$avgAQI',
+        'data.data.CO': '$avgCO',
       },
     },
     {
@@ -278,6 +294,8 @@ const QueryList = {
         avgSO2: 0,
         avgO3: 0,
         avgPb: 0,
+        avgAQI: 0,
+        avgCO: 0
       },
     },
     {
