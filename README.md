@@ -41,8 +41,6 @@ This starts the server on port 3002, which can be changed in index.ts file.
 
 ## API Reference
 
-#### Training the models
-
 Each routes example api call can be found in this postman project [here](here)
 
 
