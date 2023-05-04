@@ -1,0 +1,304 @@
+{
+	"info": {
+		"_postman_id": "8949e095-1cb3-4e1c-8117-eb32eae53426",
+		"name": "auth-service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25310657",
+		"_collection_link": "https://air-life-goa.postman.co/workspace/AirLifeGoa~36b058d9-3732-4a29-90fa-a7729d08d2b6/collection/14179179-8949e095-1cb3-4e1c-8117-eb32eae53426?action=share&creator=25310657&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Not-Found",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Sign-in",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\" : \"divyansh.24888@gmail.com\",\n    \"password\" : \"12345678\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3003/api/users/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"users",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Current User",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://airlifegoa.dev/api/users/currentuser",
+					"protocol": "https",
+					"host": [
+						"airlifegoa",
+						"dev"
+					],
+					"path": [
+						"api",
+						"users",
+						"currentuser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Signout",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "airlifegoa.dev/api/users/signout",
+					"host": [
+						"airlifegoa",
+						"dev"
+					],
+					"path": [
+						"api",
+						"users",
+						"signout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "verify-email",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3001/api/users/verify-email/94db95d4-1181-4238-aaf7-0b28a716a6ef",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"users",
+						"verify-email",
+						"94db95d4-1181-4238-aaf7-0b28a716a6ef"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "forgot-password",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"divyash.24888@gmail.com\"\n}"
+				},
+				"url": {
+					"raw": "https://airlifegoa.dev/api/users/forgot-password",
+					"protocol": "https",
+					"host": [
+						"airlifegoa",
+						"dev"
+					],
+					"path": [
+						"api",
+						"users",
+						"forgot-password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "reset-password",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://airlifegoa.dev/api/users/reset-pasword/61b9b262-de80-4b0d-8542-d473fa46ab8f",
+					"protocol": "https",
+					"host": [
+						"airlifegoa",
+						"dev"
+					],
+					"path": [
+						"api",
+						"users",
+						"reset-pasword",
+						"61b9b262-de80-4b0d-8542-d473fa46ab8f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "change-roles",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userId\" : \"63d940f64404c9a666484ad5\",\n    \"newRole\" : \"admin\",\n    \"setTo\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/users/change-roles",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"users",
+						"change-roles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"balijapellypranav2507@gmail.com\",\r\n    \"firstName\": \"pranav\",\r\n    \"password\" : \"123456\",\r\n    \"appliedRole\" : \"admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3002/api/users/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"api",
+						"users",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sign-in-local",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "All Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://airlifegoa.dev/api/users/all-users",
+					"protocol": "http",
+					"host": [
+						"airlifegoa",
+						"dev"
+					],
+					"path": [
+						"api",
+						"users",
+						"all-users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Invite",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "mail-change-roles",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
