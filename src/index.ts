@@ -12,7 +12,7 @@ const start = async () => {
     // await mongoose.connect('mongodb://0.0.0.0:27017/pollution');
     // await mongoose.connect('mongodb://airlifegoa.dev:27017/auth');
     await mongoose.connect(
-      'mongodb+srv://divyanx:airlifegoa@cluster0.hbuq2jq.mongodb.net/?retryWrites=true&w=majority',
+      'mongodb+srv://divyanx:<password>@cluster0.hbuq2jq.mongodb.net/?retryWrites=true&w=majority',
     );
 
     // await mongoose.connect('mongodb://pollution-service-mongo-srv:27017/pollution');
