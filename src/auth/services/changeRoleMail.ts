@@ -27,7 +27,7 @@ export const sendMail = async (email: string, name: string, role: string) => {
     secure: true,
     auth: {
         user: 'airlifegoa@gmail.com',
-        pass: 'akapvkinrgedjwmj',
+        pass: 'password',
     },
   });
 
