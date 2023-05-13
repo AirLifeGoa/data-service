@@ -20,9 +20,9 @@ The pollution service manages all data-related tasks. It provides the functional
 
 Mongodb is used for storing both time series and user data. MongoDB's latest version is optimized for storing time series data.
 
-
-
-
+## CodeBase walkthrough 
+The walkthrough video for entire codebase is uploaded in the AirLifeGoa youtube channel [here](https://www.youtube.com/@AirLifeGoa). 
+ 
 
 ## Installation
 
@@ -174,11 +174,9 @@ This API call is used for querying metric data like pm10, so2, etc of a data sou
 
 ## Contributing
 
-We welcome contributions of any size! please follow the below link of google docs to get more info about taking on new tasks.
-
-Future Extension(#)
+We welcome contributions of any size! please follow the github issues page to get more info about taking on new tasks.
 
 Got stuck. For any more info contact us
 
-Divyansh K - 6204991800 or mail at - me@divyanx.com        
-Pranav B - 9390062480  or mail at - pranavbalijapelly@gmail.com
+Divyansh K - 6 two O 4 Nine Nine ! Eight 0 O or mail at - me@divyanx.com        
+Pranav B - 9 Three 9 0 O Six 2 Four 8 Zero  or mail at - pranavbalijapelly@gmail.com
