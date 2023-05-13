@@ -1,0 +1,397 @@
+{
+	"info": {
+		"_postman_id": "b888a345-5983-4456-8d32-5cce366edbd9",
+		"name": "pollution-service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25310657",
+		"_collection_link": "https://air-life-goa.postman.co/workspace/AirLifeGoa~36b058d9-3732-4a29-90fa-a7729d08d2b6/collection/14179179-b888a345-5983-4456-8d32-5cce366edbd9?action=share&creator=25310657&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "create-data-source",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 18,\n    \"name\": \"iitgoa-hostel-3\",\n    \"location\": {\n        \"lat\": 14.696700,\n        \"lng\": 124.486050,\n        \"address\": \"IIT Goa Hostel 2, Farmagudi, Ponda, Goa, 403401\"\n    },\n    \"type\": \"manual\",\n    \"description\": \"data source for collecting data in iit goa hostel by students\",\n    \"metrics\": [\n        \"PM10\",\n        \"PM2.5\",\n        \"O2\",\n        \"Wind\"\n    ],\n    \"expectedFrequencySeconds\": 15,\n    \"expectedFrequencyType\": \"seconds\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/pollution/datasource/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"pollution",
+						"datasource",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-all-data-source",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/pollution/datasource",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"pollution",
+						"datasource"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "edit-data-source",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"iitgoa-hostel-3\",\n    \"location\": {\n        \"lat\": 15.696700,\n        \"lng\": 124.486050,\n        \"address\": \"IIT Goa Hostel 2, Farmagudi, Ponda, Goa, 403401\"\n    },\n    \"type\": \"manual\",\n    \"description\": \"data source for collecting data in iit goa hostel by students\",\n    \"metrics\": [\n        \"PM10\",\n        \"PM2.5\",\n        \"O3\",\n        \"Wind\",\n        \"NO2\"\n    ],\n    \"expectedFrequencySeconds\": 20,\n    \"expectedFrequencyType\": \"seconds\"\n}"
+				},
+				"url": {
+					"raw": "https://airlifegoa.dev/api/pollution/datasource/63d27ef3da68855af3a6149b",
+					"protocol": "https",
+					"host": [
+						"airlifegoa",
+						"dev"
+					],
+					"path": [
+						"api",
+						"pollution",
+						"datasource",
+						"63d27ef3da68855af3a6149b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add-data",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"timestamp\": \"2020-12-31T23:59:59.999Z\",\n        \"data\": {\n            \"PM2.5\": 120,\n            \"PM10\": 123\n        }, \n        \"metadata\": {\n            \"dataSourceId\": \"63d27ef3da68855af3a6149b\"\n        }\n    },\n\n    {\n    \"timestamp\": \"2020-12-31T23:59:59.999Z\",\n    \"data\": {\n        \"PM2.5\": 120,\n        \"PM10\": 223\n    },\n    \"metadata\": {\n        \"dataSourceId\": \"63d27ef3da68855af3a6149b\"\n    }\n}\n]"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/pollution/data",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"pollution",
+						"data"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-pollution-data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/pollution/data/1?page=1&perPage=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"pollution",
+						"data",
+						"1"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "perPage",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-num-data",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "get-pollution-data-daily",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/pollution/data/daily/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"pollution",
+						"data",
+						"daily",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-pollution-data-with-filters",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"startDate\": \"2016-04-05\",\r\n    \"endDate\": \"2022-04-05\",\r\n    \"filter\": \"monthly\",\r\n    \"stats\" : \"avg\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3002/api/pollution/data/filter/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"api",
+						"pollution",
+						"data",
+						"filter",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-pollution-data-with-filters",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/api/pollution/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/pollution/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"pollution",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dashboard Data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/api/pollution/dashboard/data/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"api",
+						"pollution",
+						"dashboard",
+						"data",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-prediciton-data",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"modelName\" : \"prophet\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3002/api/pollution/prediction/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"api",
+						"pollution",
+						"prediction",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dashboard",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Temp-wind",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "get-missing-data",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "get-all-station-latest-data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/pollution/dashboard/allstationsdata",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"pollution",
+						"dashboard",
+						"allstationsdata"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-capital-data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/api/pollution/dashboard/capital",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"api",
+						"pollution",
+						"dashboard",
+						"capital"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-datasource-mapping",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "get-metric-data",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

@@ -4,7 +4,8 @@ import { PollutionData } from '../models/pollution-data';
 import { PredictionData } from '../models/prediction-data';
 import { DataSource } from '../models/data-source';
 import { body } from 'express-validator';
-import { BadRequestError} from '@airlifegoa/common';
+import { BadRequestError } from '@airlifegoa/common';
+import { ModelLogData } from '../models/model-logs';
 
 const router = express.Router();
 
@@ -91,6 +92,10 @@ router.get('/api/pollution/dashboard/data/:dataSourceId', async (req: Request, r
   ]);
 
   console.log(stationData);
+  if (stationData.length == 0) {
+    var error_msg = 'Datasource pollution data not found';
+    res.status(200).send(error_msg);
+  }
   const latestDate = stationData[0].recordedAt;
   console.log('new date', latestDate);
 
@@ -119,7 +124,7 @@ router.get('/api/pollution/dashboard/data/:dataSourceId', async (req: Request, r
         'data.data.NO2': { $ifNull: ['$data.data.NO2', 'null'] },
         'data.data.Pb': { $ifNull: ['$data.data.Pb', 'null'] },
         'data.data.O3': { $ifNull: ['$data.data.O3', 'null'] },
-        'data.data.PM25': { $ifNull: ['$data.data.PM2.5', 'null'] },
+        'data.data.PM25': { $ifNull: ['$data.data.PM25', 'null'] },
         _id: 1,
         'data.recordedAt': '$data.recordedAt',
         'data.metadata': '$data.metadata',
@@ -185,36 +190,114 @@ router.get('/api/pollution/dashboard/data/:dataSourceId', async (req: Request, r
 
   // send data as well as next page number and page size
   // if no more data, send null for next page number and page size
-
+  if (highLowData.length == 0) {
+    var error_msg = 'Datasource pollution data not found';
+    res.status(200).send(error_msg);
+  }
   let data: any = {};
   data['metrics'] = stationData[0]['data'];
   data['high'] = highLowData[0].high;
   data['low'] = highLowData[0].low;
 
-  var todaysdate = new Date(new Date().setHours(0, 0, 0, 0));
-  todaysdate = new Date(todaysdate.getTime() + 1000 * 60 * 30 * 11);
-  var tomorrow = new Date(todaysdate.getTime() + 1000 * 60 * 60 * 24);
+  var tomorrow = new Date(new Date().setHours(0, 0, 0, 0));
+  tomorrow = new Date(tomorrow.getTime() + 1000 * 60 * 30 * 59);
+  var dayAfterTomorrow = new Date(tomorrow.getTime() + 1000 * 60 * 60 * 24);
 
-  const predictionData = await PredictionData.aggregate([
+   const ModelLogs = await ModelLogData.aggregate([
     {
-      $match: {
-        'metadata.dataSourceId': req.params.dataSourceId,
-        recordedAt: {
-          $gte: todaysdate,
-          $lte: tomorrow,
-        },
-      },
-    },
+        $facet : {
+            pm10ModelLog: [{
+                $match: {
+                  'metadata.dataSourceId': req.params.dataSourceId,
+                  'metadata.metric': "PM10"
+                },
+              },
+              {
+                $sort: {
+                  recordedAt: -1,
+                },
+              },
+              {
+                $limit: 1,
+            }],
+            pm25ModelLog: [{
+                $match: {
+                  'metadata.dataSourceId': req.params.dataSourceId,
+                  'metadata.metric': "PM25"
+                },
+              },
+              {
+                $sort: {
+                  recordedAt: -1,
+                },
+              },
+              {
+                $limit: 1,
+            }]
+        }
+    }
   ]);
 
-  if (predictionData.length > 0) {
-    data['prediction'] = predictionData[0].data;
-  }
-  else {
+  if (ModelLogs.length == 0) {
     data['prediction'] = null;
+    res.status(200).send(data);
   }
 
-  res.status(200).send(data);
+  console.log('modelog ', ModelLogs[0].pm10ModelLog, ModelLogs[0].pm25ModelLog);
+
+    const forecastsFOrTomorrow = await PredictionData.aggregate([
+       { $facet:{
+            PM10data: [
+                {
+                $match: {
+                    "data.PM10": { $exists: true }
+                    }
+                },
+                {
+                $match: {
+                    'metadata.dataSourceId': req.params.dataSourceId,
+                    'metadata.modelName': ModelLogs[0].pm10ModelLog.length > 0 ? ModelLogs[0].pm10ModelLog[0].bestModel : "",
+                    recordedAt: {
+                    $gte: tomorrow,
+                    $lt: dayAfterTomorrow,
+                },
+            },
+            },],
+            PM25data: [
+                {
+                $match: {
+                    'metadata.dataSourceId': req.params.dataSourceId,
+                    'metadata.modelName':  ModelLogs[0].pm25ModelLog.length > 0 ? ModelLogs[0].pm25ModelLog[0].bestModel : "",
+                    recordedAt: {
+                    $gte: tomorrow,
+                    $lt: dayAfterTomorrow,
+                },
+            },
+            }, {
+                $match: {
+                    "data.PM25": { $exists: true }
+                    }
+            },]    
+        }}
+    ]);
+    console.log(forecastsFOrTomorrow[0].PM10data, forecastsFOrTomorrow[0].PM25data);
+
+    var curr_dict = {};
+    if (forecastsFOrTomorrow.length !==0){
+        if (forecastsFOrTomorrow[0].PM10data.length !== 0){
+            for(let i=0;i<forecastsFOrTomorrow.length; i++){
+                curr_dict = Object.assign({}, curr_dict, forecastsFOrTomorrow[0].PM10data[i].data);
+            }
+        }
+        if (forecastsFOrTomorrow[0].PM25data.length !== 0){
+            for(let i=0;i<forecastsFOrTomorrow.length; i++){
+                curr_dict = Object.assign({}, curr_dict, forecastsFOrTomorrow[0].PM25data[i].data);
+            }
+        }
+    }
+    data.prediction  = curr_dict
+
+    res.status(200).send(data);
 });
 
 export { router as getDashboardDataRouter };

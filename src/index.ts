@@ -1,9 +1,8 @@
 import mongoose from 'mongoose';
 import { app } from './app';
-import dev_config from "./dev-config.json"
+import dev_config from './dev-config.json';
 
 const start = async () => {
-
   if (!process.env.JWT_KEY) {
     process.env.JWT_KEY = 'asdf';
     // throw new Error('No JWT_KEY defined');
@@ -12,7 +11,9 @@ const start = async () => {
   try {
     // await mongoose.connect('mongodb://0.0.0.0:27017/pollution');
     // await mongoose.connect('mongodb://airlifegoa.dev:27017/auth');
-    await mongoose.connect('mongodb+srv://divyanx:airlifegoa@cluster0.hbuq2jq.mongodb.net/?retryWrites=true&w=majority');
+    await mongoose.connect(
+      'mongodb+srv://divyanx:airlifegoa@cluster0.hbuq2jq.mongodb.net/?retryWrites=true&w=majority',
+    );
 
     // await mongoose.connect('mongodb://pollution-service-mongo-srv:27017/pollution');
     // await mongoose.connect('mongodb://localhost:27017/pollution');

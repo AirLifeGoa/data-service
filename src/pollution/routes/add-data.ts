@@ -106,7 +106,9 @@ router.post(
       },
     );
 
-    console.log(typeof pollutionData[0].recordedAt);
+    // console.log(pollutionData[0], pollutionData[1]);
+
+    // console.log(pollutionData[1].recordedAt- pollutionData[0].recordedAt)
     // save the pollution data
     const result = await PollutionData.insertMany(pollutionData);
     
