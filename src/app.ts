@@ -60,15 +60,6 @@ app.use(
   }),
 );
 
-// app.use(cookieSession({
-//     signed: false,
-//     // secure: process.env.NODE_ENV !== 'test',
-//     secure: false,
-//     httpOnly: false,
-// }));
-
-// handle cors errors
-
 app.use(createDataSourceRouter);
 app.use(getDataSourceRouter);
 app.use(getAllDataSourceRouter);

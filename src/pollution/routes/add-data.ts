@@ -12,9 +12,6 @@ router.post(
   '/api/pollution/data',
   [
     body().isArray(),
-    // body('*.recordedAt')
-    //   .isISO8601()
-    //   .withMessage('RecordedAt must be a valid date'),
     body('*.data')
       .isObject()
       .withMessage('Data must be a valid object'),
@@ -96,9 +93,6 @@ router.post(
             dataLogs[dataSourceId] += 1;
         }
     }
-
-    // print modified data as json
-    // console.log(JSON.stringify(dataStore));
     
     // create an array of pollution data
     const pollutionData = dataStore.map((data: any) => {
@@ -106,9 +100,6 @@ router.post(
       },
     );
 
-    // console.log(pollutionData[0], pollutionData[1]);
-
-    // console.log(pollutionData[1].recordedAt- pollutionData[0].recordedAt)
     // save the pollution data
     const result = await PollutionData.insertMany(pollutionData);
     

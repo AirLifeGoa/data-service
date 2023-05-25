@@ -12,16 +12,10 @@ router.post(
   '/api/pollution/prediction/:dataSourceId',
   [body('modelName').isIn(['lstm', 'prophet', 'arima', 'hybrid-lstm']).withMessage('Specified Model is not available')],
   async (req: Request, res: Response) => {
-    // if (!req.currentUser) {
-    //   throw new BadRequestError('User not found');
-    // }
 
     console.log(req.params.dataSourceId);
     const dataSource = await DataSource.findById(req.params.dataSourceId);
     const num_days_back = 50;
-    // change it to days after the meeting
-
-    console.log(req.body.startDate, typeof req.body.startDate);
 
     var startDate, endDate;
     if (req.body.startDate !== undefined && req.body.startDate !== null) {
@@ -44,12 +38,6 @@ router.post(
     if (!dataSource) {
       throw new BadRequestError('Data source not found');
     }
-
-    //   var todaysdate = new Date(new Date().setHours(0, 0, 0, 0));
-    //   todaysdate = new Date(todaysdate.getTime() + 1000 * 60 * 30 * 11);
-    //   var tomorrow = new Date(todaysdate.getTime() + 1000 * 60 * 60 * 24);
-
-    console.log(startDate, typeof startDate, endDate, req.body);
 
     const predictionData = await PredictionData.aggregate([
       {

@@ -68,7 +68,6 @@ router.get(
       pipeline = pipeline.concat(monthlyMissingDataPipeline);
     }
 
-    // console.log(pipeline);
     if (missingInterval == "yearly"){
         pipeline = pipeline.concat(yearlyMissingDataPipeline)
     }

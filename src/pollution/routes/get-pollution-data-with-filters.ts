@@ -546,18 +546,6 @@ router.post(
       throw new BadRequestError('Data source not found');
     }
 
-    // user should be either admin or dp-manager or creator of the data source
-    // if not, throw an error
-
-    // if (
-    //   !req.currentUser.roles.admin &&
-    //   !req.currentUser.roles['manager'] &&
-    //   !req.currentUser.roles['data-analyst'] &&
-    //   !(req.currentUser.id in dataSource.admins)
-    // ) {
-    //   throw new BadRequestError('You do not have permission to view this data source');
-    // }
-
     const startDate = new Date(req.body.startDate);
     const endDate = new Date(req.body.endDate);
     var filterValue = req.body.filter;
@@ -573,15 +561,6 @@ router.post(
       filterValue = { timestamp: '$recordedAt' };
     }
 
-    console.log(filterValue);
-    // get pollution data from database
-    // filter duplicate data based on meta.addedAt and select one which is latest
-    // use aggregation pipeline
-    // sort in descending order of timestamp which is recordedAt field
-    // skip and limit based on page number and page size
-    // add id field which is _id field
-    console.log('id ', typeof req.params.dataSourceId);
-    console.log(startDate, endDate, filterValue);
     var pipeline: any[] = [
       {
         $match: {
@@ -638,16 +617,13 @@ router.post(
     }else if (query === 'avg'  && req.body.filter == "weekly"){
         pipeline = pipeline.slice(0, pipeline.length -2);
         pipeline = pipeline.concat(QueryList['avg_week_pipeline']);
-        // console.log
     } 
     else if (query === 'avg'  && req.body.filter == "monthly"){
         pipeline = pipeline.slice(0, pipeline.length -2);
         pipeline = pipeline.concat(QueryList['avg_monthly_pipeline']);
-        // console.log
     } 
     else if (query === 'avg' ) {
       console.log('inside avg');
-      // pipeline.push(QueryList.avg);
       pipeline = pipeline.concat(QueryList['avg_pipeline']);
     }
 

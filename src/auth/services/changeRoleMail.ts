@@ -8,18 +8,6 @@ import * as emailConfigs from '../configs/emailConfigs.json';
 
 export const sendMail = async (email: string, name: string, role: string) => {
 
-  console.log(`Invite role for -- ${email} ${name} `);
-
-  // const getBase64Image = (imagePath: string): Promise<string> => {
-  //   return new Promise((resolve, reject) => {
-  //     fs.readFile(imagePath, { encoding: 'base64' }, (err, data) => {
-  //       if (err) reject(err);
-  //       resolve(`data:image/jpeg;base64,${data}`);
-  //     });
-  //   });
-  // };
-
-
   // initialize nodemailer
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',

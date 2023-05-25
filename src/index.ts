@@ -9,16 +9,9 @@ const start = async () => {
   }
 
   try {
-    // await mongoose.connect('mongodb://0.0.0.0:27017/pollution');
-    // await mongoose.connect('mongodb://airlifegoa.dev:27017/auth');
     await mongoose.connect(
       'mongodb+srv://divyanx:<password>@cluster0.hbuq2jq.mongodb.net/?retryWrites=true&w=majority',
     );
-
-    // await mongoose.connect('mongodb://pollution-service-mongo-srv:27017/pollution');
-    // await mongoose.connect('mongodb://localhost:27017/pollution');
-    // await mongoose.connect('mongodb://airlifegoa.dev:27017/auth');
-
     console.log('Connected to MongoDb');
   } catch (err) {
     console.error(err);

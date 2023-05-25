@@ -11,29 +11,12 @@ const router = express.Router();
 // url should contain optional query params pageNumber and pageSize
 router.get('/api/pollution/data/:dataSourceId',
   async (req: Request, res: Response) => {
-
-
-
-
-    console.log(req.params.dataSourceId);
     const dataSource = await DataSource.findById(req.params.dataSourceId);
 
     if (!dataSource) {
       throw new BadRequestError('Data source not found');
     }
 
-    // user should be either admin or dp-manager or creator of the data source
-    // if not, throw an error
-
-    // if (!req.currentUser.roles.admin
-    //   && !req.currentUser.roles['manager']
-    //   && !req.currentUser.roles['data-analyst']
-    //   && !(req.currentUser.id in dataSource.admins)) {
-    //   throw new BadRequestError('You do not have permission to view this data source');
-    // }
-
-    // get PageNumber and pageSize from query params
-    // if not present, set default values
     const pageNumber = req.query.page ? parseInt(req.query.page.toString()) : 1;
     const pageSize = req.query.perPage ? parseInt(req.query.perPage.toString()) : 100;
 
@@ -43,7 +26,6 @@ router.get('/api/pollution/data/:dataSourceId',
     // sort in descending order of timestamp which is recordedAt field
     // skip and limit based on page number and page size
     // add id field which is _id field
-
 
     const pollutionData = await PollutionData.aggregate([
       {
