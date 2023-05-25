@@ -21,9 +21,6 @@ router.post('/api/users/invite-for-role', [
       .withMessage('role not valid should be one of: ' + appliedRolesOptions.join(', ')),
   ],
   validateRequest,
-  // currentUser,
-  // requireAuth,
-  // isAdmin,
   async (req: Request, res: Response) => {
     const {
       email,

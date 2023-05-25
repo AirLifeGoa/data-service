@@ -6,21 +6,6 @@ import { allowedToCreateDs } from '../middlewares/allowed-to-create-ds';
 import { validateDataSource } from '../models/validate-data-source';
 
 const router = express.Router();
-
-// interface DataSourceAttrs {
-//   creator : string;
-//   name : string;
-//   location : {
-//     lat : number;
-//     lng : number;
-//     address : string;
-//   }
-//   type : "sensor" | "manual";
-//   description : string;
-//   metrics : string[];
-//   expectedFrequencySeconds : number;
-//   expectedFrequencyType : "seconds" | "minutes" | "hours" | "days" | "weeks" | "months" | "years";
-// }
 router.post(
   '/api/pollution/datasource/create',
   validateDataSource,

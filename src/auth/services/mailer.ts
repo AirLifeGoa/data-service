@@ -8,18 +8,6 @@ import * as emailConfigs from '../configs/emailConfigs.json';
 
 export const sendMail = async (email: string, name: string, token: string) => {
 
-  console.log(`Token for -- ${email} ${name}: `, token);
-
-  // const getBase64Image = (imagePath: string): Promise<string> => {
-  //   return new Promise((resolve, reject) => {
-  //     fs.readFile(imagePath, { encoding: 'base64' }, (err, data) => {
-  //       if (err) reject(err);
-  //       resolve(`data:image/jpeg;base64,${data}`);
-  //     });
-  //   });
-  // };
-
-
   // initialize nodemailer
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -56,7 +44,6 @@ export const sendMail = async (email: string, name: string, token: string) => {
       name: string;
       mail: string;
       verificationLink: string;
-      //   applogoUrl: string;
     };
   }
 
@@ -69,7 +56,6 @@ export const sendMail = async (email: string, name: string, token: string) => {
       name: name,
       mail: email,
       verificationLink: emailConfigs.verifyEndPointUrl + token,
-      //   applogoUrl: emailConfigs.appLogoUrl + encodedImage,
     },
   };
 
