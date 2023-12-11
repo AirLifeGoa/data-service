@@ -41,7 +41,11 @@ router.post('/api/users/signup', [
       appliedRole,
       firstName,
       lastName,
+      sub,
+      areas
     } = req.body;
+
+    console.log(req.body);
 
     const existingUser = await User.findOne({ email });
 
@@ -59,12 +63,17 @@ router.post('/api/users/signup', [
       }
     }
 
+    const lastSend = new Date('1970-01-01T18:30:00.000Z');
+
     const user = User.build({
       email,
       password,
       appliedRole,
       firstName,
       lastName,
+      sub,
+      areas,
+      lastSend
     });
     // save user and get the id for the saved user
     await user.save();
