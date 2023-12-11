@@ -10,6 +10,9 @@ interface UserAttrs {
   appliedRole: string;
   firstName: string;
   lastName?: string;
+  sub: boolean;
+  areas: string[];
+  lastSend: Date;
 }
 
 // An interface that describes the properties
@@ -41,6 +44,9 @@ interface UserDoc extends mongoose.Document {
   emailVerified: boolean;
   firstName: string;
   lastName?: string;
+  sub: boolean;
+  areas: string[];
+  lastSend: Date;
 }
 
 const userSchema = new mongoose.Schema({
@@ -75,6 +81,18 @@ const userSchema = new mongoose.Schema({
       type: String,
       required: false,
     },
+    sub: {
+      type: Boolean,
+      required: true,
+    },
+    areas: {
+      type: Array(String),
+      required: true,
+    },
+    lastSend: {
+      type: Date,
+      required: true,
+    }
   },
   {
     toJSON: {
@@ -118,6 +136,6 @@ userSchema.statics.build = (attrs: UserAttrs) => {
   };
   return new User(buildAttrs);
 };
-const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
+const User = mongoose.model<UserDoc, UserModel>('newUser', userSchema);
 
 export { User };
