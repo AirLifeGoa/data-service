@@ -33,10 +33,12 @@ import { verifyEmailRouter } from './auth/routes/verify-email';
 import { forgotPasswordRouter } from './auth/routes/forgot-password';
 import { resetPasswordRouter } from './auth/routes/reset-password';
 import { changeUserRoleRouter } from './auth/routes/change-user-role';
+import { changeLastSendRouter } from './auth/routes/change-user-lastSend';
 import { inviteForRoleRouter } from './auth/routes/invite-for-role';
 import { joinRoleRouter } from './auth/routes/join-role';
 import { getUserRouter} from "./auth/routes/get-user";
 import { MailChangeUserRoleRouter } from './auth/routes/mail-change-role';
+import { getAllStationPMRouter } from './pollution/routes/get-all-latest-pmdata';
 
 const app = express();
 
@@ -70,6 +72,7 @@ app.use(
 // handle cors errors
 
 app.use(createDataSourceRouter);
+app.use(changeLastSendRouter);
 app.use(getDataSourceRouter);
 app.use(getAllDataSourceRouter);
 app.use(editDataSourceRouter);
@@ -99,6 +102,7 @@ app.use(inviteForRoleRouter);
 app.use(joinRoleRouter);
 app.use(getUserRouter);
 app.use(MailChangeUserRoleRouter)
+app.use(getAllStationPMRouter);
 
 app.all('*', () => {
   throw new NotFoundError();

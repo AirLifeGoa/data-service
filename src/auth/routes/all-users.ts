@@ -8,21 +8,8 @@ import { BadRequestError, currentUser, requireAuth, validateRequest } from '@air
 const router = express.Router();
 
 router.get('/api/users/all-users',
-validateRequest,
-  currentUser,
-  requireAuth,
   async (req: Request, res: Response) => {
-   console.log('all-users.ts', req.currentUser)
-        if (req.currentUser == undefined) {
-            throw new BadRequestError('User not found');
-        }
-
-        const userId = req.currentUser.id;
-        if (!req.currentUser.roles.admin ) 
-        {
-            const userData = await User.find({"_id": userId});
-            res.status(200).send(userData);
-        }
+   console.log('all-users.ts')
         const userData = await User.find({});
         res.status(200).send(userData);
   });
